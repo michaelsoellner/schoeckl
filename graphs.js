@@ -46,8 +46,8 @@ async function loadCurrent() {
         var time = data.timestamps[0];
         document.querySelector('#subHeader').innerHTML = `Letzte Aktualisierung: ${formatDate(time)}`;
 
-        var wind_avg = data.features[0].properties.parameters.FFAM.data[0] * 3.6;
-        var wind_max = data.features[0].properties.parameters.FFX.data[0] * 3.6;
+        var wind_avg = Math.round(data.features[0].properties.parameters.FFAM.data[0] * 3.6 * 10) / 10;
+        var wind_max =  Math.round(data.features[0].properties.parameters.FFX.data[0] * 3.6 * 10) / 10;
         var dir_avg = data.features[0].properties.parameters.DD.data[0];
         var dir_max = data.features[0].properties.parameters.DDX.data[0];
 
@@ -75,14 +75,12 @@ async function loadPast() {
     try {
         var data = await loadData(apiUrl);
 
-
-
         // Extract relevant data from the response
         const timestamps = data.timestamps;
         const ffamData = data.features[0].properties.parameters.FFAM.data.map(x => x * 3.6);
         const ffxData = data.features[0].properties.parameters.FFX.data.map(x => x * 3.6);
 
-        var len = timestamps.length;
+        var len = timestamps.length - 1;
 
         if (ffamData[len] == 0 && ffxData[len] == 0){
             timestamps.pop();
