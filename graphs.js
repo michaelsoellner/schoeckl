@@ -1,5 +1,5 @@
 async function loadData(uri) {
-    var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(uri);
+    var proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(uri) + '&u=' + Date.now();
 
     try {
         const response = await fetch(proxyUrl);
